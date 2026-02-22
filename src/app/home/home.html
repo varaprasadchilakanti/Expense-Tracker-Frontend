@@ -1,0 +1,5 @@
+<h2> Your Expenses </h2>
+<button routerLink="/create-expense"> Create Expense </button>
+@for (item of expenseData; track $index) {
+    <app-expense-list [data]="item"/>
+}

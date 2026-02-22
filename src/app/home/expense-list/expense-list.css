@@ -1,0 +1,9 @@
+.bar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: rgb(255, 228, 254);
+    border-radius: 5px;
+}
