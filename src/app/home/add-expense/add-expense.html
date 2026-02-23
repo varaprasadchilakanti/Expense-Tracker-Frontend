@@ -1,1 +1,19 @@
-<p>add-expense works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+        <label for="">Title</label>
+        <input type="text" placeholder="Enter a valid Title" formControlName="title">
+    </div>
+    <div>
+        <label for="">Amount</label>
+        <input type="text" placeholder="Enter a valid Amount" formControlName="amount">
+    </div>
+    <div>
+        <label for="">Category</label>
+        <input type="text" placeholder="Enter a valid Category" formControlName="category">
+    </div>
+    <div>
+        <label for="">Date</label>
+        <input type="date" placeholder="Enter a valid Date" formControlName="date">
+    </div>
+    <button type="submit"> Submit </button>
+</form>
