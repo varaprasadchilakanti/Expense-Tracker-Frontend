@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
 import { HomeService } from './home-service';
 import { ExpenseList } from './expense-list/expense-list';
 import { Expense, ExpenseSummary } from '../models/expense.model';
@@ -8,7 +9,7 @@ type ViewState = 'loading' | 'loaded' | 'empty' | 'error';
 
 @Component({
   selector: 'app-home',
-  imports: [ExpenseList, RouterModule],
+  imports: [ExpenseList, RouterModule, CurrencyPipe],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
