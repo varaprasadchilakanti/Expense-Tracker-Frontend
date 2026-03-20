@@ -1,13 +1,63 @@
-<div>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div>
-            <label for=""> Username </label>
-            <input type="text" placeholder="Enter your Username" formControlName="username">
-        </div>
-        <div>
-            <label for=""> Password </label>
-            <input type="password" placeholder="Enter your Password" formControlName="password">
-        </div>
-        <button type="submit"> Submit </button>
+<div class="login-page">
+  <div class="login-card">
+
+    <div class="login-header">
+      <span class="login-logo">SW</span>
+      <h1 class="login-title">SpendWise AI</h1>
+      <p class="login-subtitle">Sign in to your account</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form" novalidate>
+
+      <div class="field-group">
+        <label class="field-label" for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          class="field-input"
+          [class.field-input--error]="username.invalid && username.touched"
+          formControlName="username"
+          placeholder="Enter your username"
+          autocomplete="username"
+        />
+        @if (username.touched && username.hasError('required')) {
+          <span class="field-error">Username is required.</span>
+        } @else if (username.touched && username.hasError('minlength')) {
+          <span class="field-error">Username must be at least 3 characters.</span>
+        }
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          class="field-input"
+          [class.field-input--error]="password.invalid && password.touched"
+          formControlName="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+        />
+        @if (password.touched && password.hasError('required')) {
+          <span class="field-error">Password is required.</span>
+        } @else if (password.touched && password.hasError('minlength')) {
+          <span class="field-error">Password must be at least 6 characters.</span>
+        }
+      </div>
+
+      @if (errorMessage) {
+        <div class="form-error-banner">{{ errorMessage }}</div>
+      }
+
+      <button
+        type="submit"
+        class="submit-btn"
+        [class.submit-btn--loading]="isSubmitting"
+        [disabled]="isSubmitting"
+      >
+        {{ isSubmitting ? 'Signing in...' : 'Sign in' }}
+      </button>
+
     </form>
+  </div>
 </div>
