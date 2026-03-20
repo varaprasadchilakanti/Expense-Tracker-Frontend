@@ -1,19 +1,112 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div>
-        <label for="">Title</label>
-        <input type="text" placeholder="Enter a valid Title" formControlName="title">
+<div class="add-expense-page">
+  <div class="add-expense-card">
+
+    <div class="add-expense-header">
+      <h1 class="add-expense-title">Add Expense</h1>
+      <p class="add-expense-subtitle">Record a new expense entry</p>
     </div>
-    <div>
-        <label for="">Amount</label>
-        <input type="text" placeholder="Enter a valid Amount" formControlName="amount">
-    </div>
-    <div>
-        <label for="">Category</label>
-        <input type="text" placeholder="Enter a valid Category" formControlName="category">
-    </div>
-    <div>
-        <label for="">Date</label>
-        <input type="date" placeholder="Enter a valid Date" formControlName="date">
-    </div>
-    <button type="submit"> Submit </button>
-</form>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="add-expense-form" novalidate>
+
+      <div class="field-group">
+        <label class="field-label" for="title">Title</label>
+        <input
+          id="title"
+          type="text"
+          class="field-input"
+          [class.field-input--error]="title.invalid && title.touched"
+          formControlName="title"
+          placeholder="e.g. Lunch at restaurant"
+          autocomplete="off"
+        />
+        @if (title.touched && title.hasError('required')) {
+          <span class="field-error">Title is required.</span>
+        } @else if (title.touched && title.hasError('minlength')) {
+          <span class="field-error">Title must be at least 2 characters.</span>
+        } @else if (title.touched && title.hasError('maxlength')) {
+          <span class="field-error">Title cannot exceed 200 characters.</span>
+        }
+      </div>
+
+      <div class="field-row">
+
+        <div class="field-group">
+          <label class="field-label" for="amount">Amount (INR)</label>
+          <input
+            id="amount"
+            type="number"
+            class="field-input"
+            [class.field-input--error]="amount.invalid && amount.touched"
+            formControlName="amount"
+            placeholder="0.00"
+            min="0.01"
+            step="0.01"
+          />
+          @if (amount.touched && amount.hasError('required')) {
+            <span class="field-error">Amount is required.</span>
+          } @else if (amount.touched && (amount.hasError('pattern') || amount.hasError('min'))) {
+            <span class="field-error">Enter a valid amount greater than 0.</span>
+          }
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="date">Date</label>
+          <input
+            id="date"
+            type="date"
+            class="field-input"
+            [class.field-input--error]="date.invalid && date.touched"
+            formControlName="date"
+            [max]="today"
+          />
+          @if (date.touched && date.hasError('required')) {
+            <span class="field-error">Date is required.</span>
+          }
+        </div>
+
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="category">Category</label>
+        <select
+          id="category"
+          class="field-input field-select"
+          [class.field-input--error]="category.invalid && category.touched"
+          formControlName="category"
+        >
+          <option value="" disabled>Select a category</option>
+          @for (cat of categories; track cat) {
+            <option [value]="cat">{{ cat }}</option>
+          }
+        </select>
+        @if (category.touched && category.hasError('required')) {
+          <span class="field-error">Category is required.</span>
+        }
+      </div>
+
+      @if (errorMessage) {
+        <div class="form-error-banner">{{ errorMessage }}</div>
+      }
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn-cancel"
+          (click)="onCancel()"
+          [disabled]="isSubmitting"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn-submit"
+          [class.btn-submit--loading]="isSubmitting"
+          [disabled]="isSubmitting"
+        >
+          {{ isSubmitting ? 'Saving...' : 'Save Expense' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
