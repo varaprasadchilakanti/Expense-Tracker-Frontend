@@ -1,4 +1,19 @@
-<div class="bar">
-    <div> {{ data.title }}</div>
-    <div> {{ data.amount }} </div>
+<div class="expense-card">
+
+  <div class="expense-card__left">
+    <span class="expense-card__title">{{ data.title }}</span>
+    <div class="expense-card__meta">
+      <span class="expense-card__category">{{ data.category }}</span>
+      <span class="expense-card__date">
+        {{ data.date | date: 'dd MMM yyyy' }}
+      </span>
+    </div>
+  </div>
+
+  <div class="expense-card__right">
+    <span class="expense-card__amount">
+      {{ data.amount | currency: 'INR' : 'symbol' : '1.2-2' }}
+    </span>
+  </div>
+
 </div>
