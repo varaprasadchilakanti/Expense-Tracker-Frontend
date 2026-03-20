@@ -1,5 +1,65 @@
-<h2> Your Expenses </h2>
-<button routerLink="/create-expense"> Create Expense </button>
-@for (item of expenseData; track $index) {
-    <app-expense-list [data]="item"/>
-}
+<div class="home-page">
+
+  <header class="home-header">
+    <div class="home-header__text">
+      <h1 class="home-title">Expenses</h1>
+      <p class="home-subtitle">Track and manage your spending</p>
+    </div>
+    <a routerLink="/create-expense" class="btn-primary">+ Add Expense</a>
+  </header>
+
+  @if (summary) {
+    <div class="summary-bar">
+      <div class="summary-item">
+        <span class="summary-label">This Month</span>
+        <span class="summary-value">
+          {{ summary.total_expense | currency: 'INR' : 'symbol' : '1.2-2' }}
+        </span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-item">
+        <span class="summary-label">Transactions</span>
+        <span class="summary-value">{{ summary.count }}</span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-item">
+        <span class="summary-label">Period</span>
+        <span class="summary-value">
+          {{ summary.month }}/{{ summary.year }}
+        </span>
+      </div>
+    </div>
+  }
+
+  <div class="expense-list-container">
+
+    @if (viewState === 'loading') {
+      <div class="state-block">
+        <span class="state-icon">...</span>
+        <p class="state-message">Loading your expenses</p>
+      </div>
+    }
+
+    @if (viewState === 'error') {
+      <div class="state-block state-block--error">
+        <p class="state-message">{{ errorMessage }}</p>
+        <button class="btn-secondary" (click)="retry()">Try again</button>
+      </div>
+    }
+
+    @if (viewState === 'empty') {
+      <div class="state-block">
+        <p class="state-message">No expenses yet.</p>
+        <a routerLink="/create-expense" class="btn-secondary">Add your first expense</a>
+      </div>
+    }
+
+    @if (viewState === 'loaded') {
+      @for (item of expenses; track item.id) {
+        <app-expense-list [data]="item" />
+      }
+    }
+
+  </div>
+
+</div>
