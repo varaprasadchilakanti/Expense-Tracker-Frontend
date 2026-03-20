@@ -8,7 +8,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const http = inject(HttpClient);
   const access = localStorage.getItem('access_token');
-  const refesh = localStorage.getItem('refresh_token');
+  const refresh = localStorage.getItem('refresh_token');
   let authReq = req;
   if(access){
     authReq = req.clone({
@@ -19,9 +19,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   }
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse)=>{
-      if(error.status == 401 && refesh){
+      if(error.status == 401 && refresh){
         return http.post<any>(environment.apiUrl + '/api/token/refresh', {
-          refesh: refesh
+          refresh: refresh
         }).pipe(
           switchMap(response => {
             localStorage.setItem('access_token', response.access);
