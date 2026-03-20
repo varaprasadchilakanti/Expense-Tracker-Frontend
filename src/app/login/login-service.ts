@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { LoginPayload, TokenResponse } from '../models/auth.model';
+import { LoginPayload, TokenResponse, RegisterPayload, RegisterResponse } from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,5 +20,12 @@ export class LoginService {
           localStorage.setItem('refresh_token', response.refresh);
         })
       );
+  }
+
+  register(payload: RegisterPayload): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(
+      environment.apiUrl + '/api/register/',
+      payload
+    );
   }
 }
