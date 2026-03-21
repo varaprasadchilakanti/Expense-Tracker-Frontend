@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { HomeService } from './home-service';
+import { LoginService } from '../login/login-service';
 import { ExpenseList } from './expense-list/expense-list';
 import { Expense, ExpenseSummary } from '../models/expense.model';
 
@@ -19,7 +20,10 @@ export class Home implements OnInit {
   summary: ExpenseSummary | null = null;
   errorMessage: string | null = null;
 
-  constructor(private homeService: HomeService) {}
+  constructor(
+    private homeService: HomeService,
+    private loginService: LoginService
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -55,5 +59,9 @@ export class Home implements OnInit {
 
   retry(): void {
     this.loadData();
+  }
+
+  logout(): void {
+    this.loginService.logout();
   }
 }

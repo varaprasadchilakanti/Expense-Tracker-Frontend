@@ -5,7 +5,10 @@
       <h1 class="home-title">Expenses</h1>
       <p class="home-subtitle">Track and manage your spending</p>
     </div>
-    <a routerLink="/create-expense" class="btn-primary">+ Add Expense</a>
+    <div class="home-header__actions">
+      <a routerLink="/create-expense" class="btn-primary">+ Add Expense</a>
+      <button class="btn-logout" (click)="logout()">Sign out</button>
+    </div>
   </header>
 
   @if (summary) {
@@ -24,9 +27,7 @@
       <div class="summary-divider"></div>
       <div class="summary-item">
         <span class="summary-label">Period</span>
-        <span class="summary-value">
-          {{ summary.month }}/{{ summary.year }}
-        </span>
+        <span class="summary-value">{{ summary.month }}/{{ summary.year }}</span>
       </div>
     </div>
   }
