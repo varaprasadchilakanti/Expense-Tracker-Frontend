@@ -21,3 +21,13 @@ export interface ExpenseSummary {
   total_expense: string;
   count: number;
 }
+
+export interface CategoryBreakdown {
+  category: string;
+  total: string;
+}
+
+export interface InsightResult {
+  insights: string[];
+  cached: boolean;
+}

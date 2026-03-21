@@ -1,0 +1,79 @@
+<div class="category-chart">
+
+  <div class="category-chart__header">
+    <div class="category-chart__heading-group">
+      <h2 class="category-chart__title">Spending by Category</h2>
+      <p class="category-chart__subtitle">
+        Current month breakdown across expense categories
+      </p>
+    </div>
+    <div class="category-chart__controls">
+      <div class="chart-type-toggle">
+        <button
+          class="chart-type-btn"
+          [class.chart-type-btn--active]="chartType === 'bar'"
+          (click)="selectChartType('bar')"
+        >
+          Bar
+        </button>
+        <button
+          class="chart-type-btn"
+          [class.chart-type-btn--active]="chartType === 'doughnut'"
+          (click)="selectChartType('doughnut')"
+        >
+          Doughnut
+        </button>
+      </div>
+      <button
+        class="category-chart__trigger"
+        [class.category-chart__trigger--loading]="viewState === 'loading'"
+        [disabled]="viewState === 'loading'"
+        (click)="fetchBreakdown()"
+      >
+        {{ viewState === 'loading' ? 'Loading...' : 'Load Chart' }}
+      </button>
+    </div>
+  </div>
+
+  @if (viewState === 'idle') {
+    <div class="chart-state chart-state--idle">
+      <p class="chart-state__message">
+        Click "Load Chart" to view your spending breakdown by category
+        for the current month.
+      </p>
+    </div>
+  }
+
+  @if (viewState === 'loading') {
+    <div class="chart-state chart-state--loading">
+      <p class="chart-state__message">Loading category data...</p>
+    </div>
+  }
+
+  @if (viewState === 'empty') {
+    <div class="chart-state chart-state--idle">
+      <p class="chart-state__message">
+        No expense data found for the current month.
+      </p>
+    </div>
+  }
+
+  @if (viewState === 'error') {
+    <div class="chart-state chart-state--error">
+      <p class="chart-state__message">
+        Failed to load category data. Please try again.
+      </p>
+      <button class="chart-retry" (click)="fetchBreakdown()">Retry</button>
+    </div>
+  }
+
+  @if (viewState === 'loaded') {
+    <div
+      class="chart-canvas-wrapper"
+      [class.chart-canvas-wrapper--doughnut]="chartType === 'doughnut'"
+    >
+      <canvas #chartCanvas></canvas>
+    </div>
+  }
+
+</div>

@@ -1,13 +1,13 @@
-<div class="login-page">
-  <div class="login-card">
+<div class="register-page">
+  <div class="register-card">
 
-    <div class="login-header">
-      <span class="login-logo">SW</span>
-      <h1 class="login-title">SpendWise AI</h1>
-      <p class="login-subtitle">Sign in to your account</p>
+    <div class="register-header">
+      <span class="register-logo">SW</span>
+      <h1 class="register-title">Create Account</h1>
+      <p class="register-subtitle">Start tracking your expenses today</p>
     </div>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form" novalidate>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="register-form" novalidate>
 
       <div class="field-group">
         <label class="field-label" for="username">Username</label>
@@ -17,13 +17,33 @@
           class="field-input"
           [class.field-input--error]="username.invalid && username.touched"
           formControlName="username"
-          placeholder="Enter your username"
+          placeholder="Choose a username"
           autocomplete="username"
         />
         @if (username.touched && username.hasError('required')) {
           <span class="field-error">Username is required.</span>
         } @else if (username.touched && username.hasError('minlength')) {
           <span class="field-error">Username must be at least 3 characters.</span>
+        } @else if (username.touched && username.hasError('maxlength')) {
+          <span class="field-error">Username cannot exceed 150 characters.</span>
+        }
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          class="field-input"
+          [class.field-input--error]="email.invalid && email.touched"
+          formControlName="email"
+          placeholder="Enter your email"
+          autocomplete="email"
+        />
+        @if (email.touched && email.hasError('required')) {
+          <span class="field-error">Email is required.</span>
+        } @else if (email.touched && email.hasError('email')) {
+          <span class="field-error">Enter a valid email address.</span>
         }
       </div>
 
@@ -35,8 +55,8 @@
           class="field-input"
           [class.field-input--error]="password.invalid && password.touched"
           formControlName="password"
-          placeholder="Enter your password"
-          autocomplete="current-password"
+          placeholder="Create a password"
+          autocomplete="new-password"
         />
         @if (password.touched && password.hasError('required')) {
           <span class="field-error">Password is required.</span>
@@ -49,18 +69,22 @@
         <div class="form-error-banner">{{ errorMessage }}</div>
       }
 
+      @if (successMessage) {
+        <div class="form-success-banner">{{ successMessage }}</div>
+      }
+
       <button
         type="submit"
         class="submit-btn"
         [class.submit-btn--loading]="isSubmitting"
         [disabled]="isSubmitting"
       >
-        {{ isSubmitting ? 'Signing in...' : 'Sign in' }}
+        {{ isSubmitting ? 'Creating account...' : 'Create Account' }}
       </button>
 
-      <p class="register-link">
-        Don't have an account?
-        <a routerLink="/register" class="register-link__anchor">Create one</a>
+      <p class="login-link">
+        Already have an account?
+        <a routerLink="/login" class="login-link__anchor">Sign in</a>
       </p>
 
     </form>
