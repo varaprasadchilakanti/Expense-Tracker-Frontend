@@ -1,0 +1,69 @@
+<div class="insights-panel">
+
+  <div class="insights-panel__header">
+    <div class="insights-panel__heading-group">
+      <h2 class="insights-panel__title">AI Insights</h2>
+      <p class="insights-panel__subtitle">
+        Personalised recommendations based on your spending patterns
+      </p>
+    </div>
+    <button
+      class="insights-panel__trigger"
+      [class.insights-panel__trigger--loading]="insightState === 'loading'"
+      [disabled]="insightState === 'loading'"
+      (click)="fetchInsights()"
+    >
+      {{ insightState === 'loading' ? 'Analysing...' : 'Get Insights' }}
+    </button>
+  </div>
+
+  @if (insightState === 'idle') {
+    <div class="insights-state insights-state--idle">
+      <p class="insights-state__message">
+        Click "Get Insights" to analyse your recent expenses and receive
+        personalised savings recommendations.
+      </p>
+    </div>
+  }
+
+  @if (insightState === 'loading') {
+    <div class="insights-state insights-state--loading">
+      <p class="insights-state__message">Analysing your spending patterns...</p>
+    </div>
+  }
+
+  @if (insightState === 'rate-limited') {
+    <div class="insights-state insights-state--warning">
+      <p class="insights-state__message">
+        The insights service is temporarily rate-limited. Please try again
+        in a few moments.
+      </p>
+    </div>
+  }
+
+  @if (insightState === 'error') {
+    <div class="insights-state insights-state--error">
+      <p class="insights-state__message">
+        Unable to retrieve insights at this time. Please try again later.
+      </p>
+      <button class="insights-retry" (click)="fetchInsights()">Retry</button>
+    </div>
+  }
+
+  @if (insightState === 'loaded') {
+    <div class="insights-results">
+      @if (isCached) {
+        <span class="insights-cache-badge">Cached result</span>
+      }
+      <ul class="insights-list">
+        @for (insight of insights; track $index) {
+          <li class="insights-card">
+            <span class="insights-card__index">{{ $index + 1 }}</span>
+            <p class="insights-card__text">{{ insight }}</p>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+
+</div>
