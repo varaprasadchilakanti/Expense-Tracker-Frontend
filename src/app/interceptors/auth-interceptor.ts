@@ -9,18 +9,20 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const http = inject(HttpClient);
   const access = localStorage.getItem('access_token');
   const refresh = localStorage.getItem('refresh_token');
+
   let authReq = req;
-  if(access){
+  if (access) {
     authReq = req.clone({
       setHeaders: {
-        Authorization : `Bearer ${access}`
+        Authorization: `Bearer ${access}`
       }
     });
   }
+
   return next(authReq).pipe(
-    catchError((error: HttpErrorResponse)=>{
-      if(error.status == 401 && refresh){
-        return http.post<any>(environment.apiUrl + '/api/token/refresh', {
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401 && refresh) {
+        return http.post<any>(environment.apiUrl + '/api/token/refresh/', {
           refresh: refresh
         }).pipe(
           switchMap(response => {
@@ -32,14 +34,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             });
             return next(newReq);
           }),
-          catchError(err=>{
+          catchError(err => {
             localStorage.clear();
-            router.navigate(['/login'])
-            return throwError(()=> err);
+            router.navigate(['/login']);
+            return throwError(() => err);
           })
         );
       }
-      return throwError(()=> error);
+      return throwError(() => error);
     })
-  )
+  );
 };
