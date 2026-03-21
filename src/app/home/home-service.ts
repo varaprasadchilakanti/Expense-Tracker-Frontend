@@ -2,7 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Expense, CreateExpensePayload, ExpenseSummary } from '../models/expense.model';
+import {
+  Expense,
+  CreateExpensePayload,
+  ExpenseSummary,
+  CategoryBreakdown,
+  InsightResult
+} from '../models/expense.model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +32,18 @@ export class HomeService {
   getSummary(): Observable<ExpenseSummary> {
     return this.http.get<ExpenseSummary>(
       environment.apiUrl + '/api/expenses/summary/'
+    );
+  }
+
+  getCategoryBreakdown(): Observable<CategoryBreakdown[]> {
+    return this.http.get<CategoryBreakdown[]>(
+      environment.apiUrl + '/api/expenses/category-breakdown/'
+    );
+  }
+
+  getInsights(): Observable<InsightResult> {
+    return this.http.get<InsightResult>(
+      environment.apiUrl + '/api/expenses/insights/'
     );
   }
 }
