@@ -4,13 +4,14 @@ import { CurrencyPipe } from '@angular/common';
 import { HomeService } from './home-service';
 import { LoginService } from '../login/login-service';
 import { ExpenseList } from './expense-list/expense-list';
+import { InsightsPanel } from './insights-panel/insights-panel';
 import { Expense, ExpenseSummary } from '../models/expense.model';
 
 type ViewState = 'loading' | 'loaded' | 'empty' | 'error';
 
 @Component({
   selector: 'app-home',
-  imports: [ExpenseList, RouterModule, CurrencyPipe],
+  imports: [ExpenseList, RouterModule, CurrencyPipe, InsightsPanel],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
