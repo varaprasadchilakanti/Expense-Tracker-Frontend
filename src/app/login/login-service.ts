@@ -3,7 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { LoginPayload, TokenResponse, RegisterPayload, RegisterResponse } from '../models/auth.model';
+import {
+  LoginPayload,
+  TokenResponse,
+  RegisterPayload,
+  RegisterResponse
+} from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -27,5 +32,10 @@ export class LoginService {
       environment.apiUrl + '/api/register/',
       payload
     );
+  }
+
+  logout(): void {
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }
