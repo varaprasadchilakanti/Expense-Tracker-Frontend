@@ -5,13 +5,14 @@ import { HomeService } from './home-service';
 import { LoginService } from '../login/login-service';
 import { ExpenseList } from './expense-list/expense-list';
 import { InsightsPanel } from './insights-panel/insights-panel';
+import { CategoryChart } from './category-chart/category-chart';
 import { Expense, ExpenseSummary } from '../models/expense.model';
 
 type ViewState = 'loading' | 'loaded' | 'empty' | 'error';
 
 @Component({
   selector: 'app-home',
-  imports: [ExpenseList, RouterModule, CurrencyPipe, InsightsPanel],
+  imports: [ExpenseList, RouterModule, CurrencyPipe, InsightsPanel, CategoryChart],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
